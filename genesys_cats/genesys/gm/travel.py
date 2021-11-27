@@ -234,7 +234,7 @@ def combat_encounter(
                 cats_ambushed=encounter.cats_ambushed,
                 enemies_ambushed=encounter.enemies_ambushed,
             ),
-            message=f"🤼 {describe_cats_list(participating_cats)} "
+            content=f"🤼 {describe_cats_list(participating_cats)} "
             f"{message} 🤼",
             image=combine_images([cat.image for cat in participating_cats]),
         )
