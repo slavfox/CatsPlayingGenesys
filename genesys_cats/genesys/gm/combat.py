@@ -412,7 +412,7 @@ class Combat(Event):
             )
             self.cat_hps[target.id] -= wounds
         if self.cat_hps[target.id] <= 0:
-            messages.append(f"**{target} is defeated!**")
+            messages.append(f"{target} **is defeated!**")
 
         return DiscordMessage(
             "\n".join(messages), self.make_embed(cats_standing), target.image
