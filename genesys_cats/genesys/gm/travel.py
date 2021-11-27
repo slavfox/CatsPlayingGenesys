@@ -21,7 +21,9 @@ from genesys_cats.genesys.gm.npcs import (
     CAVE_NPCS,
     CITY_NPCS,
     GIANT_SPIDER_FIGHT,
+    GUARD_FIGHT,
     MINE_NPCS,
+    ORCS_FIGHT,
     PLACE_OF_POWER_NPCS,
     SPIDER_QUEEN_FIGHT,
     SPIDER_SWARM,
@@ -29,6 +31,7 @@ from genesys_cats.genesys.gm.npcs import (
     VAMPIRE_AMBUSH,
     VAMPIRE_ENCOUNTER,
     VILLAGE_NPCS,
+    WILD_DOGCATS,
     WOODS_NPCS,
     CombatTemplate,
 )
@@ -93,13 +96,17 @@ GENERIC_LOCATIONS = [
     Location("a", "small settlement", "settlement", LocationType.VILLAGE),
     # Woods
     Location("a", "dense forest", "forest", LocationType.WOODS),
+    Location(None, "mysterious woods", "woods", LocationType.WOODS),
     # Caves
     Location("a", "dark cave", "cave", LocationType.CAVE),
     Location("an", "ominous cave", "cave", LocationType.CAVE),
     Location("a", "sprawling cavern", "cavern", LocationType.CAVE),
     # Mines
+    Location("a", "dwarven mine", "mine", LocationType.MINE),
+    Location("an", "abandoned mineshaft", "mineshaft", LocationType.MINE),
     # Places of power
     Location("a", "mysterious ruin", "ruin", LocationType.PLACE_OF_POWER),
+    Location("an", "ancient shrine", "shrine", LocationType.PLACE_OF_POWER),
 ]
 
 
@@ -238,18 +245,37 @@ def combat_encounter(
 LOCATION_TYPE_EVENTS = {
     LocationType.EN_ROUTE: [
         meet_generic_npc(TRAVELLING_NPCS),
-        combat_encounter([BANDIT_AMBUSH]),
+        combat_encounter([BANDIT_AMBUSH, WILD_DOGCATS] * 2 + [ORCS_FIGHT]),
     ],
-    LocationType.CITY: [meet_generic_npc(CITY_NPCS)],
+    LocationType.CITY: [
+        meet_generic_npc(CITY_NPCS),
+    ]
+    * 3
+    + [
+        combat_encounter([BANDIT_AMBUSH, GUARD_FIGHT]),
+    ],
     LocationType.VILLAGE: [
         meet_generic_npc(VILLAGE_NPCS),
-        meet_generic_npc(VILLAGE_NPCS),
-        combat_encounter([VAMPIRE_ENCOUNTER, BANDIT_AMBUSH]),
+    ]
+    * 3
+    + [
+        combat_encounter([VAMPIRE_ENCOUNTER, BANDIT_AMBUSH, BANDIT_AMBUSH]),
     ],
     LocationType.WOODS: [
         meet_generic_npc(WOODS_NPCS),
         get_lost,
-        combat_encounter([VAMPIRE_AMBUSH]),
+        combat_encounter(
+            [VAMPIRE_AMBUSH, WILD_DOGCATS, WILD_DOGCATS, ORCS_FIGHT]
+        ),
+        find_thing(
+            [
+                "a grouping of trees with deep rut marks",
+                "the husk of an ancient tree, struck down by lightning",
+                "a dense thicket, blocking all natural light",
+                "a small, peaceful clearing",
+                "a resting bear, watching the party from a distance",
+            ]
+        ),
     ],
     LocationType.CAVE: [
         meet_generic_npc(CAVE_NPCS),
@@ -264,10 +290,19 @@ LOCATION_TYPE_EVENTS = {
                 "an immense cavern, stretching out further than light can "
                 "reach",
                 "a fathomless underground chasm",
+                "ancient charcoal paintings of scenes from before history",
+                "a small pool with stalactites dripping overhead",
             ]
         ),
         combat_encounter(
-            [SPIDER_SWARM, GIANT_SPIDER_FIGHT, SPIDER_QUEEN_FIGHT]
+            [
+                SPIDER_SWARM,
+                SPIDER_SWARM,
+                SPIDER_SWARM,
+                GIANT_SPIDER_FIGHT,
+                GIANT_SPIDER_FIGHT,
+                SPIDER_QUEEN_FIGHT,
+            ]
         ),
     ],
     LocationType.MINE: [
@@ -298,6 +333,7 @@ LOCATION_TYPE_EVENTS = {
                 "a circle on the ground where no sound can be heard",
                 "two tree trunks that join into a single crown",
                 "a water fountain flowing in reverse",
+                "an obsidian obelisk, silently beckoning",
             ]
         ),
     ],
@@ -362,7 +398,21 @@ class Travel(Event):
                 return self.generate_location_event(state, cats)
         logger.info("Travelling")
         reaches = random.choice(TRAVEL_VERBS)
-        self.current_location = attr.evolve(random.choice(GENERIC_LOCATIONS))
+
+        self.current_location = attr.evolve(
+            random.choice(
+                [
+                    loc
+                    for loc in GENERIC_LOCATIONS
+                    if loc.name
+                    != (
+                        self.current_location.name
+                        if self.current_location
+                        else None
+                    )
+                ]
+            )
+        )
         return DiscordMessage(
             content=f"🏞 The party {reaches} {self.current_location}. 🏞"
         )

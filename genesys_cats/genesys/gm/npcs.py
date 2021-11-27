@@ -244,3 +244,80 @@ SPIDER_QUEEN_FIGHT = CombatTemplate(
     enemies_ambushed=False,
     cats_ambushed=False,
 )
+
+
+GUARDSCAT = NPC(
+    "guardscat",
+    attack_attr=3,
+    attack_skill=1,
+    soak=3,
+    hp=7,
+    weapon="truncheon",
+    weapon_damage=5,
+    willpower=2,
+    presence=2,
+    defense=1,
+)
+
+
+GUARD_CAPTAIN = NPC(
+    "guard catptain",
+    attack_attr=3,
+    attack_skill=2,
+    soak=4,
+    hp=13,
+    weapon="halberd",
+    weapon_damage=7,
+    willpower=2,
+    presence=3,
+    defense=1,
+)
+
+
+GUARD_FIGHT = CombatTemplate(
+    "gets in a scuffle with some guards!",
+    [(GUARDSCAT, 5), (GUARD_CAPTAIN, 1)],
+    enemies_ambushed=False,
+    cats_ambushed=False,
+)
+
+DOGCAT = NPC(
+    "wild dogcat",
+    attack_attr=2,
+    attack_skill=0,
+    soak=2,
+    hp=5,
+    weapon="vicious bite",
+    weapon_damage=4,
+    willpower=1,
+    presence=1,
+    defense=0,
+)
+
+WILD_DOGCATS = CombatTemplate(
+    "runs into a pack of angry wild dogcats!",
+    [(DOGCAT, 1)],
+    enemies_ambushed=False,
+    cats_ambushed=False,
+)
+
+ORC = NPC(
+    "orc cat warrior",
+    attack_attr=4,
+    attack_skill=1,
+    soak=4,
+    hp=12,
+    weapon="axe",
+    weapon_damage=8,
+    willpower=1,
+    presence=1,
+    defense=0,
+)
+
+
+ORCS_FIGHT = CombatTemplate(
+    "gets attacked by a gang of orc cats!",
+    [(ORC, 1)],
+    enemies_ambushed=False,
+    cats_ambushed=False,
+)

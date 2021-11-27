@@ -36,7 +36,9 @@ class Location:
     known_npcs: List["NPC"] = attr.ib(factory=list)
 
     def __str__(self) -> str:
-        return f"{self.article} {self.name}"
+        if self.article:
+            return f"{self.article} {self.name}"
+        return self.name
 
 
 @attr.s(auto_attribs=True, slots=True, auto_detect=True)
