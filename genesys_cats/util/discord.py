@@ -118,11 +118,6 @@ def make_cat_embed(cat: "Cat") -> Embed:
         inline=True,
     )
     cat_embed.add_field(
-        name="Purr Volume 🔊",
-        value=percentage_to_moons(cat.purr_volume),
-        inline=True,
-    )
-    cat_embed.add_field(
         name="Wound Threshold ❤️‍🩹",
         value=str(cat.wound_threshold),
         inline=False,
