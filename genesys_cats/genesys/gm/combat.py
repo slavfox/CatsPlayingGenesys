@@ -619,30 +619,30 @@ class Combat(Event):
 
         own_setbacks = 0
         enemy_boosts = 0
-        disadvantages = -roll.advantages
-        while disadvantages >= 2:
+        threats = -roll.advantages
+        while threats >= 2:
             add_setback = random.getrandbits(1)
             if add_setback:
                 own_setbacks += 1
                 own_modifiers.setback += 1
-                disadvantages -= 2
+                threats -= 2
                 continue
             enemy_boosts += 1
             enemy_modifiers.boost += 1
-            disadvantages -= 2
+            threats -= 2
             continue
 
         if enemy_boosts:
             messages.append(
                 f"{attacker_str}'s opponents get {enemy_boosts} additional "
                 f"Boost {p.plural_noun('die', enemy_boosts)} on the next "
-                f"roll due to the Disadvantages."
+                f"roll due to the Threats."
             )
         if own_setbacks:
             messages.append(
                 f"{attacker_str}'s allies get {own_setbacks} additional "
                 f"Setback {p.plural_noun('die', own_setbacks)} on the "
-                f"next roll due to the Disadvantages."
+                f"next roll due to the Threats."
             )
 
         return is_crit, messages
