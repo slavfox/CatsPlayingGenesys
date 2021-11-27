@@ -230,7 +230,7 @@ def build_cat_message(
     if previous_cat and previous_cat != new_cat:
         content += f"{previous_cat} left!\n\n"
     content += (
-        f"{new_cat.id}. 🐈 **{new_cat.name}** 🐈\n"
+        f"🐈 **{new_cat.name}** 🐈\n"
         f"Type `catbot: adopt` to adopt {new_cat.pronouns.him}."
     )
     return content
