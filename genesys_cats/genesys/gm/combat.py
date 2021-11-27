@@ -577,9 +577,9 @@ class Combat(Event):
         if enemy_setbacks and own_boosts:
             messages.append(
                 f"{spends_advantages} "
-                f"to grant allies {own_boosts} Boost"
+                f"to grant allies {own_boosts} Boost "
                 f"{p.plural_noun('die', own_boosts)} and force the "
-                f"opponents to take {enemy_setbacks} Setback"
+                f"opponents to take {enemy_setbacks} Setback "
                 f"{p.plural_noun('die', enemy_setbacks)} on the next roll."
             )
         elif enemy_setbacks:
@@ -590,7 +590,7 @@ class Combat(Event):
             )
         elif own_boosts:
             messages.append(
-                f"{spends_advantages} to grant allies {own_boosts} Boost"
+                f"{spends_advantages} to grant allies {own_boosts} Boost "
                 f"{p.plural_noun('die', own_boosts)} on the next roll."
             )
 
@@ -605,7 +605,7 @@ class Combat(Event):
             elif despair == "boost":
                 enemy_modifiers.boost += 1
                 messages.append(
-                    f"Because {attacker} rolled a Despair, the"
+                    f"Because {attacker} rolled a Despair, the "
                     f"opponents' next roll will get an additional Boost die."
                 )
             elif despair == "setback":
