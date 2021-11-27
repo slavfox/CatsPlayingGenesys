@@ -435,7 +435,9 @@ class Combat(Event):
     def make_embed(self, cats: List["Cat"]) -> Embed:
         """Build an embed with an overview of the combat status."""
         cats_hps = [
-            (cat, hp) for cat in cats if (hp := self.cat_hps.setdefault(cat.id, cat.wound_threshold)) > 0
+            (cat, hp)
+            for cat in cats
+            if (hp := self.cat_hps.setdefault(cat.id, cat.wound_threshold)) > 0
         ]
         embed = Embed(
             title="⚔️ Combat! ⚔️",
@@ -564,9 +566,9 @@ class Combat(Event):
                 enemy_modifiers.setback += 1
                 roll.advantages -= 2
                 continue
+            roll.advantages -= 1
             own_boosts += 1
             own_modifiers.boost += 1
-            continue
 
         spends_advantages = (
             f"{attacker_str} spends {advantages_spent} "
