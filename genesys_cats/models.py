@@ -4,9 +4,8 @@
 """Database models."""
 from typing import TYPE_CHECKING
 
-from tortoise import Model, Tortoise, fields
+from tortoise import Model, fields
 
-from genesys_cats.config import config
 from genesys_cats.util.cats import (
     CAT_BODY_IMAGE,
     CAT_EYES_IMAGE,
@@ -20,15 +19,6 @@ from genesys_cats.util.text import Pronouns
 
 if TYPE_CHECKING:
     from PIL import Image
-
-
-async def init_db():
-    """Initialize the database."""
-    await Tortoise.init(
-        db_url=config.db_url,
-        modules={"models": ["genesys_cats.db.models"]},
-    )
-    await Tortoise.generate_schemas()
 
 
 class Server(Model):

@@ -7,6 +7,7 @@ from typing import Optional
 from logging import getLogger
 
 import discord
+from tortoise import Tortoise
 
 from genesys_cats.bot.commands import handle_command
 from genesys_cats.bot.helpers import get_server, send_cat, spawn_new_cat
@@ -14,9 +15,18 @@ from genesys_cats.config import config
 from genesys_cats.genesys.core import GameState
 from genesys_cats.genesys.gm.travel import Travel
 from genesys_cats.genesys.serde import converter
-from genesys_cats.models import Cat, Server, init_db
+from genesys_cats.models import Cat, Server
 
 logger = getLogger("discord_bot")
+
+
+async def init_db():
+    """Initialize the database."""
+    await Tortoise.init(
+        db_url=config.db_url,
+        modules={"models": ["genesys_cats.models"]},
+    )
+    await Tortoise.generate_schemas()
 
 
 class CatBot(discord.Client):
