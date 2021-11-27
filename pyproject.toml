@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "genesys_cats"
+version = "0.1.0"
+description = "Cats playing Genesys"
+authors = ["Slavfox <slavfoxman@gmail.com>"]
+license = "MPL-2.0"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+Pillow = "^8.4.0"
+numpy = "^1.21.4"
+"discord.py" = "^1.7.3"
+inflect = "^5.3.0"
+tortoise-orm = "^0.17.8"
+python-rapidjson = "^1.5"
+attrs = "^21.2.0"
+cattrs = "^1.8.0"
+tomlkit = "^0.7.2"
+
+[tool.poetry.dev-dependencies]
+black = "^21.10b0"
+isort = "^5.10.1"
+types-Pillow = "^8.3.7"
+pylint = "^2.11.1"
+pre-commit = "^2.15.0"
+mypy = {version = "^0.910", markers = "platform_python_implementation == 'CPython'"}
+flake8 = "^4.0.1"
+flake8-absolute-import = "^1.0"
+flake8-bandit = "^2.1.2"
+flake8-bugbear = "^21.9.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+
+[tool.isort]
+profile = "black"
+force_to_top = ["typing"]
+line_length = 79
